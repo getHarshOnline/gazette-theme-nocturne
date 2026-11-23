@@ -1,0 +1,123 @@
+package = "theme:nocturne"
+namespace = "nocturne"
+templates = "templates"
+render = { page = "page.html", alias = "alias.html", graph = "graph.html", not_found = "not-found.html", social_card = { template = "social-card.html", resource_requirements = ["stylesheet:social-card", "module:social-card-media"], width = 1200, height = 630, media_selector = '.painted-film[data-scene="opening"] .painted-still > [data-gazette-image-block]:first-child img', media_kind = "image" } }
+browser_theme_colors = { light = "#efebf1", dark = "#1c1a25" }
+# The world opens dark until the reader chooses; see styles/world.scss.
+initial_color_mode = "dark"
+resource_requirements = ["stylesheet:world-tokens", "font:reading", "font:reading-italic", "font:system", "font:display", "stylesheet:world", "stylesheet:cinematic-film", "image:film-grain"]
+
+[[dependencies]]
+package = "theme:base"
+
+[[resources]]
+id = "stylesheet:world-tokens"
+inputs = ["tokens/world.css"]
+build = { kind = "stylesheet", entry = "tokens/world.css" }
+
+[[resources]]
+id = "stylesheet:world"
+inputs = ["styles/world.scss", "styles/_painted.scss", "shared/_typography.scss", "shared/_navigation.scss", "shared/_optical.scss", "tokens/scss/_layout.scss"]
+build = { kind = "stylesheet", entry = "styles/world.scss" }
+
+[[resources]]
+id = "font:reading-italic"
+inputs = ["instrument-sans-italic-latin.woff2"]
+build = { kind = "woff2-font", entry = "instrument-sans-italic-latin.woff2" }
+
+[[resources]]
+id = "font:reading"
+inputs = ["instrument-sans-latin.woff2"]
+build = { kind = "woff2-font", entry = "instrument-sans-latin.woff2" }
+
+[[resources]]
+id = "font:system"
+inputs = ["martian-mono-latin.woff2"]
+build = { kind = "woff2-font", entry = "martian-mono-latin.woff2" }
+
+[[resources]]
+id = "font:display"
+inputs = ["anybody-latin.woff2"]
+build = { kind = "woff2-font", entry = "anybody-latin.woff2" }
+
+
+
+
+
+[components.painted-film]
+template = "components/painted-film.html"
+arguments = { type = "object", additionalProperties = false, required = ["scene"], properties = { scene = { type = "string", enum = ["opening", "encounter", "coda"], description = "Select the opening, encounter or coda scene treatment." } } }
+
+[components.painted-beat]
+template = "components/painted-beat.html"
+arguments = { type = "object", additionalProperties = false }
+
+[components.painted-copy]
+template = "components/painted-copy.html"
+arguments = { type = "object", additionalProperties = false }
+
+[components.painted-still]
+template = "components/painted-still.html"
+arguments = { type = "object", additionalProperties = false }
+
+[components.painted-frames]
+template = "components/painted-frames.html"
+presentation_only = true
+arguments = { type = "object", additionalProperties = false, required = ["variant"], properties = { variant = { type = "string", enum = ["landscape", "portrait"], description = "Whether the enclosed frame links belong to the landscape or portrait film." } } }
+
+[components.painted-film.interaction]
+module = "module:painted-film"
+export = "mount"
+mount = "load"
+
+[[resources]]
+id = "module:painted-film"
+inputs = ["scripts/painted-film.js", "shared/painted-film.mjs"]
+build = { kind = "browser-module", entry = "scripts/painted-film.js", imports = { "@base/cinematic-film" = "module:cinematic-film" } }
+
+[components.painted-interval]
+template = "components/painted-interval.html"
+arguments = { type = "object", additionalProperties = false, properties = { treatment = { type = "string", enum = ["verse", "closing"], description = "Use the verse interval by default, or the closing interval without its decorative seal." } } }
+
+[components.painted-gallery]
+template = "components/painted-gallery.html"
+arguments = { type = "object", additionalProperties = false }
+
+[components.painted-plate]
+template = "components/painted-plate.html"
+arguments = { type = "object", additionalProperties = false, dependentRequired = { width = ["height"], height = ["width"] }, properties = { width = { type = "integer", minimum = 1, description = "Source width used with height to preserve the plate aspect ratio." }, height = { type = "integer", minimum = 1, description = "Source height paired with width." } } }
+
+[components.painted-caption]
+template = "components/painted-caption.html"
+arguments = { type = "object", additionalProperties = false }
+
+[components.painted-study]
+template = "components/painted-study.html"
+arguments = { type = "object", additionalProperties = false, required = ["scene"], properties = { scene = { type = "string", enum = ["forest", "city"], description = "Select the forest or city study." } } }
+
+[components.painted-study.interaction]
+module = "module:painted-film"
+export = "mount"
+mount = "load"
+
+[components.painted-interval.interaction]
+module = "module:painted-interval"
+export = "mount"
+mount = "load"
+
+[[resources]]
+id = "module:painted-interval"
+inputs = ["scripts/painted-interval.js", "shared/painted-film.mjs"]
+build = { kind = "browser-module", entry = "scripts/painted-interval.js", imports = { "@base/cinematic-film" = "module:cinematic-film" } }
+
+[components.painted-margin]
+template = "components/painted-margin.html"
+arguments = { type = "object", additionalProperties = false, required = ["side"], properties = { side = { type = "string", enum = ["left", "right"], description = "Place this margin group on the left or right." } } }
+
+[components.painted-cue]
+template = "components/painted-cue.html"
+arguments = { type = "object", additionalProperties = false }
+
+[chrome.regions]
+"base:theme-credit" = "Nocturne theme"
+"base:theme-repository" = "https://github.com/getHarshOnline/gazette-theme-nocturne"

@@ -1,0 +1,43 @@
+@use '../shared/typography';
+@use '../tokens/scss/layout';
+@use '../shared/navigation';
+@use 'painted';
+@layer world {
+  .frame__footer { background: var(--color-sheet); }
+  :root[data-footer-treatment='colophon'] .frame__footer { background: var(--color-paper); }
+}
+
+@layer world {
+  :root:not([data-mode]) { color-scheme: dark; }
+  .frame__nav :is([aria-current='page'],[aria-current='location']) { text-decoration-color: var(--color-signal); }
+  .frame__nav a:focus-visible,.publication-index a:focus-visible { box-shadow: 0 0 var(--world-illumination-emission-spread) var(--world-illumination-emission); }
+  .publication-index > li { padding-block: var(--space-6); }
+  .publication-index > li > .publication-index__title { font-size: var(--type-size-h3); line-height: var(--type-line-height-heading); text-decoration: none; }
+  @media (hover: hover) and (pointer: fine) { .publication-index > li > a:hover { text-decoration: underline; } }
+  .publication-index time { font-variant-numeric: tabular-nums; }
+  .publication-body figure:not(.project-media):not(.painted-plate) { --prose-caption-gap: var(--world-figure-caption-gap); margin-block: var(--world-figure-interval); border-block-end: var(--stroke-hair) solid var(--color-strong-line); padding-block-end: var(--space-5); }
+  .reading-notes { border-block-start: 0; border-block-end-color: var(--color-strong-line); }
+  .reading-notes[open] > summary { color: var(--color-ink); }
+  :is(.reading-notes,.reading-apparatus) > .reading-notes__body { background: var(--color-sheet); padding-inline: var(--space-5); }
+  @media (width < layout.$layout-breakpoint-navigation) {
+    :root[data-page-mode='reading'] h1 { font-size: var(--type-size-h2); }
+    .publication-index > li { padding-block: var(--space-5); }
+    :is(.reading-notes,.reading-apparatus) > .reading-notes__body { padding-inline: var(--space-4); }
+  }
+}
+
+// One functional navigation recipe; the world supplies its contextual palette.
+@layer world {
+  :root { --nocturne-chrome-ink: var(--color-ink); --nocturne-chrome-paper: var(--color-paper); --nocturne-chrome-focus: var(--color-focus); }
+  @include navigation.capsule($ink: var(--nocturne-chrome-ink), $paper: var(--nocturne-chrome-paper), $focus: var(--nocturne-chrome-focus));
+}
+
+
+
+@layer world {
+  .shell__dialog { background: var(--color-sheet); border: 0; border-block-end: var(--stroke-hair) solid var(--color-strong-line); }
+  // The search picker keeps this world's strong-line shell edge rather than the optical frame.
+  @supports (appearance: base-select) { .search-page select::picker(select) { border: var(--stroke-hair) solid var(--color-strong-line); box-shadow: none; } }
+  .control--secondary { --control-secondary-border: transparent; --control-secondary-decoration: underline; }
+  .shell__tenant input[type='search'] { background: transparent; border: 0; border-block-end: var(--stroke-hair) solid var(--color-strong-line); }
+}

@@ -1,0 +1,200 @@
+@use '../tokens/scss/layout';
+@use '../shared/navigation';
+@use '../shared/optical';
+
+@layer world {
+  :root[data-page-mode='home']:has(.painted-film) {
+    main { max-inline-size: none; padding: 0; margin-block: 0; }
+    .publication-layout { display: block; }
+    .publication-body { max-inline-size: none; }
+    .frame__header { position: absolute; inset-inline: 0; inset-block-start: 0; background: transparent; }
+    .frame__header[data-navigation-mode] { position: fixed; }
+    @include navigation.film-legibility($paper: var(--color-paper));
+    .shell__settings-trigger {
+      @include optical.layer($face: color-mix(in srgb,var(--color-paper) calc(var(--material-discovery-fill) * 100%),transparent),$filter: blur(var(--world-material-optical-blur)),$solid: var(--color-paper));
+    }
+    &:has([data-gazette-component='painted-film']:not(:is([data-island-state='preparing'],[data-island-state='drawn']))) {
+      .frame__header { background: var(--color-paper); }
+      .frame__header :is(.frame__brand,.shell__trigger,.frame__nav a) { text-shadow: none; }
+    }
+    &:not(:has([data-gazette-component='painted-film'][data-film-position='pinned'])) .frame__header { background: var(--color-paper); }
+    .frame__footer { margin-block-start: 0; }
+  }
+  [data-gazette-component='painted-film'] {
+    color: var(--color-ink); background: var(--color-paper);
+  }
+  .painted-film .cinematic-stage { overflow: clip; }
+  .painted-film :is(.cinematic-title,.cinematic-premise > p) { @include optical.ink-support; }
+  .painted-beat { min-block-size: 100svh; z-index: 1; }
+  .painted-still img { object-fit: cover; object-position: center; }
+  .painted-copy {
+    position: relative; min-block-size: 100svh;
+    display: flex; flex-direction: column; justify-content: center; align-items: center;
+    padding: var(--space-9) var(--space-5); text-align: center;
+  }
+  .painted-copy :is(h1,h2,p) { margin: 0; }
+  .painted-copy .cinematic-title { position: relative; max-inline-size: 100%; }
+  .painted-copy .cinematic-title :is(h1,h2) { margin: 0; }
+  .painted-copy .cinematic-premise { position: relative; max-inline-size: var(--layout-measure); margin-block-start: var(--space-5); }
+  .painted-copy .cinematic-premise p { font-size: var(--type-size-body); font-style: italic; line-height: var(--type-line-height-reading); color: var(--color-muted); }
+  .painted-copy .cinematic-premise p + p { margin-block-start: var(--space-4); }
+  .painted-film[data-scene='opening'] {
+    .painted-copy {
+      transform: translate3d(0,var(--film-title-shift,0px),0);
+      opacity: var(--film-copy-opacity,1);
+    }
+    .cinematic-title h1 {
+      --painted-headline-size: calc(100vw * var(--type-scene-headline-fluid));
+      font-size: clamp(var(--type-scene-headline-min),var(--painted-headline-size),var(--type-scene-headline-max));
+      line-height: var(--type-scene-headline-leading); letter-spacing: calc(var(--type-scene-headline-tracking) * 1em); font-weight: var(--world-type-display-weight);
+    }
+  }
+  .painted-film[data-scene='encounter'] {
+    .painted-copy {
+      position: absolute; inset-inline-start: calc(100vw * var(--layout-scroll-scene-gutter));
+      inset-block-end: calc(100svh * var(--layout-scroll-scene-encounter-bottom));
+      min-block-size: 0; inline-size: min(var(--layout-scroll-scene-encounter-width),calc(100% - 2 * var(--space-5)));
+      align-items: start; padding: 0; text-align: start;
+    }
+    .cinematic-title h2 { font-size: var(--type-size-h3); line-height: var(--type-line-height-heading); }
+    .cinematic-premise { margin-block-start: var(--space-3); }
+    .cinematic-premise p { font-size: var(--type-size-body); }
+  }
+  .painted-film[data-scene='coda'] {
+    .painted-copy {
+      position: absolute; inset-inline-start: calc(100vw * var(--layout-scroll-scene-gutter));
+      inset-block-end: calc(100svh * var(--layout-scroll-scene-encounter-bottom));
+      inline-size: min(var(--layout-scroll-scene-encounter-width),calc(100% - 2 * var(--space-5)));
+      min-block-size: 0; padding: 0; align-items: start; text-align: start; z-index: 1; isolation: isolate;
+    }
+    .painted-copy {
+      opacity: var(--film-copy-opacity,1); box-sizing: border-box; padding: var(--space-5);
+      @include optical.layer($face: color-mix(in srgb,var(--color-paper) calc(var(--material-discovery-fill) * 100%),transparent),$filter: blur(var(--world-material-optical-blur)),$solid: var(--color-paper));
+    }
+    .painted-copy :is(h2,p) { text-shadow: none; }
+    .cinematic-title h2 { font-size: var(--type-size-h2); line-height: var(--type-line-height-heading); }
+  }
+  [data-gazette-component='painted-film']:is([data-island-state='preparing'],[data-island-state='drawn']) .painted-still {
+    display: block; clip-path: inset(50%); pointer-events: none;
+  }
+  // Only the floating desk plate takes the optical contour. The native storyboard
+  // and the compact drawn coda set the same copy as an open band without an edge.
+  @media screen and (width >= layout.$layout-breakpoint-compact) {
+    [data-gazette-component='painted-film']:is([data-island-state='preparing'],[data-island-state='drawn']) .painted-film[data-scene='coda'] .painted-copy { @include optical.frame(); }
+  }
+  [data-gazette-component='painted-film']:is([data-island-state='preparing'],[data-island-state='drawn']) {
+    overflow: clip; background: transparent;
+  }
+  .painted-interval {
+    position: relative; min-block-size: calc(100svh * var(--layout-scroll-scene-interval-height));
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    padding: calc(100svh * var(--layout-scroll-scene-interval-padding)) var(--space-5); text-align: center;
+  }
+  .painted-interval > * { max-inline-size: var(--layout-measure); margin: 0; }
+  .painted-interval > p { font-size: var(--type-size-h3); line-height: var(--type-line-height-reading); }
+  .painted-interval em { color: var(--color-muted); font-weight: var(--type-weight-reading); }
+  .painted-interval--closing {
+    min-block-size: 100svh; padding-block: calc(100svh * var(--layout-scroll-scene-closing-padding));
+    background: var(--color-paper); gap: var(--space-5);
+  }
+  .painted-interval--closing h2 { font-size: var(--type-size-display-2); line-height: var(--type-line-height-heading); }
+  .painted-interval--closing p { font-size: var(--type-size-body); font-style: italic; color: var(--color-muted); }
+  .painted-interval--closing .primary-action { margin-block-start: var(--space-5); }
+  // Only the supporting lines are italic; the action keeps the upright control face.
+  .painted-interval--closing .primary-action p { font-style: normal; }
+  .painted-gallery {
+    padding: calc(100svh * var(--layout-scroll-scene-gallery-before)) calc(100vw * var(--layout-scroll-scene-gutter)) calc(100svh * var(--layout-scroll-scene-gallery-after));
+  }
+  .painted-gallery > h2 { text-align: center; font-size: var(--type-size-display-2); margin: 0 0 calc(100svh * var(--layout-scroll-scene-gallery-heading-gap)); }
+  .publication-body figure.painted-plate {
+    display: grid; grid-template-columns: repeat(var(--layout-columns),minmax(0,1fr));
+    align-items: center; gap: var(--layout-scroll-scene-gallery-gap); margin: 0; padding: 0; border: 0;
+  }
+  .painted-plate > [data-gazette-component='painted-study'] { grid-column: 1 / span 5; min-inline-size: 0; }
+  .painted-study { position: relative; aspect-ratio: var(--painted-plate-ratio); }
+  .painted-study .cinematic-stage { position: absolute; inset: 0; block-size: 100%; }
+  .painted-study .cinematic-beat { position: absolute; inset: 0; min-block-size: 0; }
+  .painted-plate img { display: block; inline-size: 100%; block-size: 100%; object-fit: contain; }
+  .publication-body .painted-caption {
+    grid-column: 7 / span 5; margin: calc(100svh * var(--layout-scroll-scene-gallery-first-offset)) 0 0;
+    max-inline-size: var(--layout-scroll-scene-gallery-caption-width); color: var(--color-muted);
+  }
+  .painted-caption > * { margin: 0; }
+  .painted-caption h3 { font-size: var(--type-size-h2); line-height: var(--type-line-height-heading); color: var(--color-ink); }
+  .painted-caption p { font-size: var(--type-size-body); line-height: var(--type-line-height-reading); margin-block-start: var(--space-4); }
+  .painted-caption p:has(a) { margin-block-start: var(--space-5); }
+  .painted-caption a { color: var(--color-ink); text-underline-offset: var(--space-1); }
+  .publication-body figure.painted-plate + figure.painted-plate { margin-block-start: calc(100svh * var(--layout-scroll-scene-gallery-row-gap)); align-items: start; }
+  .painted-plate + .painted-plate > [data-gazette-component='painted-study'] { grid-column: 7 / span 4; grid-row: 1; }
+  .publication-body .painted-plate + .painted-plate .painted-caption { grid-column: 1 / span 4; grid-row: 1; margin-block-start: calc(100svh * var(--layout-scroll-scene-gallery-second-offset)); }
+  @media (width < layout.$layout-breakpoint-compact) {
+    .painted-film[data-scene='opening'] .cinematic-title h1 {
+      font-size: min(var(--type-scene-headline-min),var(--painted-headline-size));
+      overflow-wrap: normal; word-break: normal;
+    }
+    [data-gazette-component='painted-film']:is([data-island-state='preparing'],[data-island-state='drawn']) .painted-film[data-scene='coda'] {
+      .painted-beat { display: grid; grid-template-rows: minmax(0,1fr) auto; min-block-size: 0; box-sizing: border-box; padding: var(--space-9) var(--space-5) 0; }
+      .painted-still { position: relative; inset: auto; grid-row: 1; min-block-size: 0; block-size: 100%; }
+      .painted-copy { position: static; inset: auto; grid-row: 2; inline-size: auto; padding: var(--space-5) 0; background: none; backdrop-filter: none; }
+      .painted-copy :is(h2,p) { text-shadow: none; }
+    }
+    .painted-film[data-scene='coda'] .cinematic-title h2 { font-size: var(--type-size-h2); }
+    .painted-gallery > h2 { font-size: var(--type-size-h2); }
+    .publication-body figure.painted-plate, .publication-body figure.painted-plate + figure.painted-plate { display: flex; flex-direction: column; align-items: stretch; }
+    .publication-body .painted-plate .painted-caption { margin-block-start: 0; }
+    .painted-caption h3 { font-size: var(--type-size-h3); }
+    .painted-interval--closing h2 { font-size: var(--type-size-h2); }
+  }
+  @media print {
+    .painted-still { position: static; clip-path: none !important; }
+    .painted-copy, .painted-beat, .painted-interval { min-block-size: 0; }
+    .painted-film .painted-copy { position: static; padding: var(--space-5); inline-size: auto; transform: none !important; }
+    .painted-interval,.painted-gallery { padding: var(--space-6); }
+    .painted-interval--closing { background: none; }
+  }
+}
+
+@layer world {
+  .painted-margin,.painted-cue { position: absolute; pointer-events: none; }
+  .painted-margin { font-size: var(--type-size-meta); color: var(--color-ink); opacity: var(--film-copy-opacity,1); @include optical.ink-support; }
+  .painted-margin p,.painted-cue p { margin: 0; }
+  .painted-margin--left { inset-inline-start: calc(100vw * var(--layout-scroll-scene-margin-inset)); inset-block-start: 50%; transform: translateY(-30%); display: flex; flex-direction: column; gap: var(--space-4); }
+  .painted-margin--right { right: calc(100vw * var(--layout-scroll-scene-aside-inset)); top: calc(100% * var(--layout-scroll-scene-aside-top)); writing-mode: vertical-rl; }
+  .painted-cue { inset-inline-start: 50%; inset-block-end: calc(100svh * var(--layout-scroll-scene-cue-bottom)); transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: var(--space-3); font-size: var(--type-size-meta); color: var(--color-muted); opacity: var(--film-cue-opacity,1); }
+  .painted-cue::after { content: ''; inline-size: var(--stroke-hair); block-size: var(--space-7); background: currentColor; }
+  [data-island-state='drawn'][data-film-position='pinned'] .painted-cue::after { animation: painted-cue var(--scene-cue-cycle) var(--scene-entry-easing) infinite; }
+  @keyframes painted-cue {
+    0% { transform: scaleY(0); transform-origin: top; }
+    45% { transform: scaleY(1); transform-origin: top; }
+    55% { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+  @media (width < layout.$layout-breakpoint-compact) { .painted-margin--left { display: none; } }
+  :root[data-motion='reduce'] .painted-cue::after { animation: none; }
+  @media (prefers-reduced-motion: reduce) { :root:not([data-motion='allow']) .painted-cue::after { animation: none; } }
+  @media print { .painted-margin,.painted-cue { display: none; } }
+}
+
+@layer world {
+  // A complete native storyboard expands with its text on short and reduced-motion screens.
+  [data-gazette-component='painted-film']:not(:is([data-island-state='preparing'],[data-island-state='drawn'])) {
+    .painted-film .cinematic-stage { overflow: visible; }
+    .painted-beat { display: flex; flex-direction: column; }
+    .painted-still { position: relative; inset: auto; z-index: auto; block-size: 100svh; inline-size: 100%; }
+    .painted-film .painted-copy { position: relative; inset: auto; min-block-size: 0; inline-size: auto; padding: var(--space-7) var(--space-5); transform: none; }
+    .cinematic-title,.cinematic-premise > p { text-shadow: none; }
+    .painted-margin,.painted-cue { display: none; }
+  }
+}
+
+@layer world {
+  .painted-seal,.painted-interval__seal { --world-mark-box: var(--space-6); --world-mark-layer-size: 100% 100%; }
+  .painted-seal { position: absolute; inset-inline-end: calc(100vw * var(--layout-scroll-scene-margin-inset)); inset-block-start: calc(100% * var(--layout-scroll-scene-seal-top)); opacity: calc(var(--film-seal-opacity,1) * var(--film-copy-opacity,1)); pointer-events: none; }
+  .painted-interval__seal { margin-block-start: var(--space-6); }
+  @media print { .painted-seal,.painted-interval__seal { display: none; } }
+}
+
+@layer world {
+  .painted-grain { position: fixed; inset: 0; inline-size: 100%; block-size: 100%; z-index: 1; opacity: var(--world-material-raster-opacity); mix-blend-mode: soft-light; pointer-events: none; }
+  @media print { .painted-grain { display: none; } }
+}

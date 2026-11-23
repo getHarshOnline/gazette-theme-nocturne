@@ -1,0 +1,46 @@
+MIT License, with an attribution term
+
+Copyright © 2026 RawThoughts Enterprises Private Limited.
+Author and originator: Harsh Joshi.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+Every website or other publication built with the Software, or with a work
+based on it, shall keep a credit in its footer stating that it was made using
+Gazette, such as "Made using Gazette", that links to
+https://rawthoughts.in/gazette/, together with a link to
+https://github.com/getHarshOnline/gazette-theme-nocturne.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+Exceptions
+
+These terms cover every file in this repository except the following, which
+keep their own terms:
+
+- instrument-sans-italic-latin.woff2 and instrument-sans-latin.woff2: the
+  Instrument Sans font, under the SIL Open Font License 1.1 in
+  fonts/Instrument-Sans-OFL.txt.
+- martian-mono-latin.woff2: the Martian Mono font, under the SIL Open Font
+  License 1.1 in fonts/martian-mono-OFL.txt.
+- anybody-latin.woff2: the Anybody font, under the SIL Open Font License 1.1
+  in fonts/anybody-OFL.txt.
+- docs/preview.gif: the preview shows content from the deployed site that this
+  repository does not license: footage and artwork purchased from a vendor
+  under licence, and the portrait and publication art of Harsh
+  (https://getharsh.in). All rights reserved; not for reuse from this
+  repository.
