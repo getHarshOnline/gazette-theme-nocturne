@@ -31,3 +31,7 @@ The authored account uses its source headings while the native document title re
 The film’s contrast treatment supports optical navigation over bright artwork while a pinned scene is active. Outside that state, the header returns to readable stock. The opened directory has its own ground. Base owns focus painting, menu behavior and the shared footer; Nocturne supplies contextual colors and low horizon rules. Reading and command surfaces retain their own contours.
 
 Part of [gazette-theme-nocturne](../README.md).
+
+## Performance fixture
+
+The painted scene fixture selects Nocturne’s story regions from the composed page. Base measures forward and reverse scrolling through each region and counts the delivered painted-frame requests. The composing workspace chooses the served page and browser conditions. [Theme fixture](../fixtures/performance.json)

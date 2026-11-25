@@ -8,7 +8,6 @@
 }
 
 @layer world {
-  :root:not([data-mode]) { color-scheme: dark; }
   .frame__nav :is([aria-current='page'],[aria-current='location']) { text-decoration-color: var(--color-signal); }
   .frame__nav a:focus-visible,.publication-index a:focus-visible { box-shadow: 0 0 var(--world-illumination-emission-spread) var(--world-illumination-emission); }
   .publication-index > li { padding-block: var(--space-6); }

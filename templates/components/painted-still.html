@@ -1,1 +1,2 @@
-<div class="painted-still cinematic-still">{{ component.body.html | safe }}</div>
+{% import "base/macros/storyboard.html" as storyboard %}
+{{ storyboard::still(body=component.body, class="painted-still cinematic-still") }}

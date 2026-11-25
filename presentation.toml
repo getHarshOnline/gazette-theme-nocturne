@@ -4,7 +4,7 @@ templates = "templates"
 render = { page = "page.html", alias = "alias.html", graph = "graph.html", not_found = "not-found.html", social_card = { template = "social-card.html", resource_requirements = ["stylesheet:social-card", "module:social-card-media"], width = 1200, height = 630, media_selector = '.painted-film[data-scene="opening"] .painted-still > [data-gazette-image-block]:first-child img', media_kind = "image" } }
 browser_theme_colors = { light = "#efebf1", dark = "#1c1a25" }
 # The world opens dark until the reader chooses; see styles/world.scss.
-initial_color_mode = "dark"
+initial_color_mode = "system"
 resource_requirements = ["stylesheet:world-tokens", "font:reading", "font:reading-italic", "font:system", "font:display", "stylesheet:world", "stylesheet:cinematic-film", "image:film-grain"]
 
 [[dependencies]]

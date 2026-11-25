@@ -1,0 +1,11 @@
+{
+  "home": {
+    "label": "Painted scene",
+    "regions": [
+      "[data-gazette-component='painted-film']"
+    ],
+    "minimumRegions": 1,
+    "framePattern": "/f[0-9]+\\.webp$",
+    "labelAttribute": "data-scene"
+  }
+}
