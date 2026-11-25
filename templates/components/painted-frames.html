@@ -1,1 +1,1 @@
-<div class="cinematic-frames cinematic-frames--{{ component.arguments.variant }}" hidden>{{ component.body.html | safe }}</div>
+<script type="application/json" data-cinematic-frames="{{ component.arguments.variant }}">{{ component.body.link_destinations | json_script }}</script>
